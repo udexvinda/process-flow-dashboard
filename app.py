@@ -1,3 +1,4 @@
+import json
 import io
 import html
 import requests
@@ -112,11 +113,12 @@ except Exception as e:
 st.subheader("Process Diagram")
 
 bpmn_html = f"""
-<div id=\"canvas\" style=\"height:65vh;border:1px solid #ddd;border-radius:8px;\"></div>
-<script src=\"https://unpkg.com/bpmn-js@10.2.1/dist/bpmn-viewer.production.min.js\"></script>
+<div id="canvas" style="height:65vh;border:1px solid #ddd;border-radius:8px;"></div>
+<script src="https://unpkg.com/bpmn-js@10.2.1/dist/bpmn-viewer.production.min.js"></script>
 <script>
   const viewer = new BpmnJS({{ container: '#canvas' }});
-  const xml = `{html.escape(bpmn_xml)}`;
+  // Pass raw XML as a proper JS string literal
+  const xml = {json.dumps(bpmn_xml)};
   viewer.importXML(xml).then(() => {{
     const canvas = viewer.get('canvas');
     canvas.zoom('fit-viewport');
