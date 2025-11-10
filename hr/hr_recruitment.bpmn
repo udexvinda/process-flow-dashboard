@@ -1,76 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions
-xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
-xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
-xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
-xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
-targetNamespace="http://bpmn.io/schema/bpmn"
->
-<bpmn:process id="Process_HR_Recruitment" name="HR Recruitment" isExecutable="false">
-<bpmn:startEvent id="StartEvent" name="Hiring Need Raised"/>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+  targetNamespace="http://bpmn.io/schema/bpmn">
 
+  <bpmn:process id="Process_HR_Recruitment" name="HR Recruitment" isExecutable="false">
+    <bpmn:startEvent id="StartEvent" name="Hiring Need Raised"/>
+    <bpmn:task id="Task_PostJob" name="Post Job">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="kpi_key" value="time_to_fill"/>
+          <camunda:property name="kpi_target" value="25d"/>
+          <camunda:property name="owner" value="HR Recruiting"/>
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_ScreenCandidates" name="Screen Candidates">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="kpi_key" value="time_to_screen"/>
+          <camunda:property name="kpi_target" value="48h"/>
+          <camunda:property name="owner" value="HR Recruiting"/>
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_ScheduleInterview" name="Schedule Interview">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="kpi_key" value="time_to_schedule_interview"/>
+          <camunda:property name="kpi_target" value="24h"/>
+          <camunda:property name="owner" value="HR Ops"/>
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="Task_IssueOffer" name="Issue Offer">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="kpi_key" value="offer_accept_ratio"/>
+          <camunda:property name="kpi_target" value="&gt;=80%"/>
+          <camunda:property name="owner" value="HR Business Partner"/>
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:endEvent id="End_Onboarded" name="Onboarded">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="kpi_key" value="first_year_attrition"/>
+          <camunda:property name="kpi_target" value="&lt;8%"/>
+          <camunda:property name="owner" value="HR + Line Manager"/>
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
 
-<bpmn:task id="Task_PostJob" name="Post Job">
-<bpmn:extensionElements>
-<camunda:properties>
-<camunda:property name="kpi_key" value="time_to_fill"/>
-<camunda:property name="kpi_target" value="25d"/>
-<camunda:property name="owner" value="HR Recruiting"/>
-</camunda:properties>
-</bpmn:extensionElements>
-</bpmn:task>
+    <bpmn:sequenceFlow id="flow1" sourceRef="StartEvent" targetRef="Task_PostJob"/>
+    <bpmn:sequenceFlow id="flow2" sourceRef="Task_PostJob" targetRef="Task_ScreenCandidates"/>
+    <bpmn:sequenceFlow id="flow3" sourceRef="Task_ScreenCandidates" targetRef="Task_ScheduleInterview"/>
+    <bpmn:sequenceFlow id="flow4" sourceRef="Task_ScheduleInterview" targetRef="Task_IssueOffer"/>
+    <bpmn:sequenceFlow id="flow5" sourceRef="Task_IssueOffer" targetRef="End_Onboarded"/>
+  </bpmn:process>
 
+  <!-- DI: coordinates and waypoints -->
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_HR_Recruitment">
+      <bpmndi:BPMNShape id="DI_StartEvent" bpmnElement="StartEvent">
+        <dc:Bounds x="120" y="170" width="36" height="36"/>
+      </bpmndi:BPMNShape>
 
-<bpmn:task id="Task_ScreenCandidates" name="Screen Candidates">
-<bpmn:extensionElements>
-<camunda:properties>
-<camunda:property name="kpi_key" value="time_to_screen"/>
-<camunda:property name="kpi_target" value="48h"/>
-<camunda:property name="owner" value="HR Recruiting"/>
-</camunda:properties>
-</bpmn:extensionElements>
-</bpmn:task>
+      <bpmndi:BPMNShape id="DI_Task_PostJob" bpmnElement="Task_PostJob">
+        <dc:Bounds x="200" y="150" width="120" height="80"/>
+      </bpmndi:BPMNShape>
 
+      <bpmndi:BPMNShape id="DI_Task_ScreenCandidates" bpmnElement="Task_ScreenCandidates">
+        <dc:Bounds x="360" y="150" width="160" height="80"/>
+      </bpmndi:BPMNShape>
 
-<bpmn:task id="Task_ScheduleInterview" name="Schedule Interview">
-<bpmn:extensionElements>
-<camunda:properties>
-<camunda:property name="kpi_key" value="time_to_schedule_interview"/>
-<camunda:property name="kpi_target" value="24h"/>
-<camunda:property name="owner" value="HR Ops"/>
-</camunda:properties>
-</bpmn:extensionElements>
-</bpmn:task>
+      <bpmndi:BPMNShape id="DI_Task_ScheduleInterview" bpmnElement="Task_ScheduleInterview">
+        <dc:Bounds x="560" y="150" width="170" height="80"/>
+      </bpmndi:BPMNShape>
 
+      <bpmndi:BPMNShape id="DI_Task_IssueOffer" bpmnElement="Task_IssueOffer">
+        <dc:Bounds x="770" y="150" width="140" height="80"/>
+      </bpmndi:BPMNShape>
 
-<bpmn:task id="Task_IssueOffer" name="Issue Offer">
-<bpmn:extensionElements>
-<camunda:properties>
-<camunda:property name="kpi_key" value="offer_accept_ratio"/>
-<camunda:property name="kpi_target" value="&gt;=80%"/>
-<camunda:property name="owner" value="HR Business Partner"/>
-</camunda:properties>
-</bpmn:extensionElements>
-</bpmn:task>
+      <bpmndi:BPMNShape id="DI_End_Onboarded" bpmnElement="End_Onboarded">
+        <dc:Bounds x="950" y="170" width="36" height="36"/>
+      </bpmndi:BPMNShape>
 
-
-<bpmn:endEvent id="End_Onboarded" name="Onboarded">
-<bpmn:extensionElements>
-<camunda:properties>
-<camunda:property name="kpi_key" value="first_year_attrition"/>
-<camunda:property name="kpi_target" value="&lt;8%"/>
-<camunda:property name="owner" value="HR + Line Manager"/>
-</camunda:properties>
-</bpmn:extensionElements>
-</bpmn:endEvent>
-
-
-<!-- Minimal sequence flow to be valid BPMN (no DI coords needed for viewer) -->
-<bpmn:sequenceFlow id="flow1" sourceRef="StartEvent" targetRef="Task_PostJob"/>
-<bpmn:sequenceFlow id="flow2" sourceRef="Task_PostJob" targetRef="Task_ScreenCandidates"/>
-<bpmn:sequenceFlow id="flow3" sourceRef="Task_ScreenCandidates" targetRef="Task_ScheduleInterview"/>
-<bpmn:sequenceFlow id="flow4" sourceRef="Task_ScheduleInterview" targetRef="Task_IssueOffer"/>
-<bpmn:sequenceFlow id="flow5" sourceRef="Task_IssueOffer" targetRef="End_Onboarded"/>
-</bpmn:process>
+      <bpmndi:BPMNEdge id="DI_flow1" bpmnElement="flow1">
+        <di:waypoint x="156" y="188"/><di:waypoint x="200" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_flow2" bpmnElement="flow2">
+        <di:waypoint x="320" y="190"/><di:waypoint x="360" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_flow3" bpmnElement="flow3">
+        <di:waypoint x="520" y="190"/><di:waypoint x="560" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_flow4" bpmnElement="flow4">
+        <di:waypoint x="730" y="190"/><di:waypoint x="770" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_flow5" bpmnElement="flow5">
+        <di:waypoint x="910" y="190"/><di:waypoint x="950" y="188"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
 </bpmn:definitions>
