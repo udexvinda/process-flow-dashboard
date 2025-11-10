@@ -1,6 +1,7 @@
 import json
 import io
 import html
+import time
 import requests
 import pandas as pd
 import streamlit as st
@@ -90,12 +91,11 @@ with st.sidebar:
     refresh = st.button("🔄 Refresh now")
 
 if AUTO_REFRESH_SECONDS:
-    st.experimental_set_query_params(_=pd.Timestamp.utcnow().value)  # avoid caching by URL
-    st.autorefresh = st.empty()
-    st.autorefresh.write(
-        f"Auto-refreshing every {AUTO_REFRESH_SECONDS}s (change in the sidebar to disable)."
-    )
-    st.experimental_rerun  # hint for Streamlit Cloud
+    st.markdown(f"_Auto-refreshing every **{AUTO_REFRESH_SECONDS}s** (change in the sidebar to disable)._")
+    # Sleep at the end of the script, then rerun from the top
+    # Tip: put this near the bottom of the file, after rendering the page.
+    time.sleep(AUTO_REFRESH_SECONDS)
+    st.rerun()
 
 if refresh:
     st.cache_data.clear()
