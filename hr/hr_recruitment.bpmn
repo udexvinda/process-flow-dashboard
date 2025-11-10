@@ -48,7 +48,7 @@ targetNamespace="http://bpmn.io/schema/bpmn"
 <bpmn:extensionElements>
 <camunda:properties>
 <camunda:property name="kpi_key" value="offer_accept_ratio"/>
-<camunda:property name="kpi_target" value=">=80%"/>
+<camunda:property name="kpi_target" value="&gt;=80%"/>
 <camunda:property name="owner" value="HR Business Partner"/>
 </camunda:properties>
 </bpmn:extensionElements>
@@ -59,7 +59,7 @@ targetNamespace="http://bpmn.io/schema/bpmn"
 <bpmn:extensionElements>
 <camunda:properties>
 <camunda:property name="kpi_key" value="first_year_attrition"/>
-<camunda:property name="kpi_target" value="<8%"/>
+<camunda:property name="kpi_target" value="&lt;8%"/>
 <camunda:property name="owner" value="HR + Line Manager"/>
 </camunda:properties>
 </bpmn:extensionElements>
