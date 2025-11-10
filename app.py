@@ -113,13 +113,15 @@ except Exception as e:
 st.subheader("Process Diagram")
 
 bpmn_html = f"""
-<div id="canvas" style="height:40vh;border:1px solid #ddd;border-radius:8px;"></div>   <!-- was 65vh -->
+<div id="canvas" style="height:65vh;border:1px solid #ddd;border-radius:8px;"></div>
 <script src="https://unpkg.com/bpmn-js@10.2.1/dist/bpmn-viewer.production.min.js"></script>
 <script>
   const viewer = new BpmnJS({{ container: '#canvas' }});
+  // Pass raw XML as a proper JS string literal
   const xml = {json.dumps(bpmn_xml)};
   viewer.importXML(xml).then(() => {{
-    viewer.get('canvas').zoom('fit-viewport');
+    const canvas = viewer.get('canvas');
+    canvas.zoom('fit-viewport');
   }}).catch((err) => {{
     const pre = document.createElement('pre'); pre.textContent = err?.message || err;
     document.body.appendChild(pre);
@@ -127,7 +129,7 @@ bpmn_html = f"""
 </script>
 """
 
-st.components.v1.html(bpmn_html, height=420, scrolling=True)   # was 520
+st.components.v1.html(bpmn_html, height=520, scrolling=True)
 
 # ------------------ KPI TABLE ------------------
 st.subheader("KPI Mapping")
