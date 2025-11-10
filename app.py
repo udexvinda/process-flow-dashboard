@@ -207,7 +207,7 @@ st.title("HR Recruitment — BPMN + KPI Monitor")
 # ------------------ RENDER DIAGRAM ------------------
 st.subheader("Process Diagram")
 bpmn_html = f"""
-<div id="canvas" style="height:40vh;border:1px solid #ddd;border-radius:8px;"></div>
+<div id="canvas" style="height:65vh;border:1px solid #ddd;border-radius:8px;"></div>
 <script src="https://unpkg.com/bpmn-js@10.2.1/dist/bpmn-viewer.production.min.js"></script>
 <script>
   const viewer = new BpmnJS({{ container: '#canvas' }});
