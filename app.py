@@ -13,17 +13,6 @@ st.set_page_config(
     layout="wide",
 )
 
-st.markdown("""
-<style>
-/* Reduce vertical whitespace between blocks */
-.block-container { padding-top: 1rem; padding-bottom: 1rem; }
-section.main > div { margin-top: 0.5rem; margin-bottom: 0.5rem; }
-/* Optional: reduce gap under the diagram specifically */
-#canvas { margin-bottom: 0.5rem !important; }
-</style>
-""", unsafe_allow_html=True)
-
-
 # ------------------ CONFIG ------------------
 # Public raw URLs (easy path). If your repo is private, set USE_GITHUB_TOKEN=True and put a token in st.secrets.
 REPO_USER = "udexvinda"
