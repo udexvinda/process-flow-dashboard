@@ -221,7 +221,7 @@ bpmn_html = f"""
   }});
 </script>
 """
-st.components.v1.html(bpmn_html, height=420, scrolling=True)
+st.components.v1.html(bpmn_html, height=500, scrolling=True)
 
 # ------------------ KPI TABLE ------------------
 st.subheader("KPI Mapping")
