@@ -1,0 +1,6 @@
+﻿"kpi_key,current_value,target_value,last_updated"
+"time_to_screen,36h,48h,2025-11-09"
+"time_to_schedule_interview,18h,24h,2025-11-08"
+"offer_accept_ratio,74%,80%,2025-11-05"
+"time_to_fill,21d,25d,2025-11-07"
+"first_year_attrition,9.5%,<8%,2025-11-01"
