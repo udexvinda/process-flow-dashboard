@@ -35,7 +35,7 @@ REPO_NAME = "process-flow-dashboard"  # <-- change if needed
 BRANCH = "main"                       # "main" unless you use another branch
 
 # Private repo? Set True and put GITHUB_TOKEN in Streamlit Secrets
-USE_GITHUB_TOKEN = False
+USE_GITHUB_TOKEN = True
 
 # Default list of folders to show if dynamic listing fails (optional)
 DEFAULT_FOLDERS = ["hr", "finance", "claims"]
