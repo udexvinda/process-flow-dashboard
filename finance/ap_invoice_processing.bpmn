@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <bpmn:process id="Process_AP_Invoice" name="AP — Invoice Processing" isExecutable="false">
+
+    <bpmn:startEvent id="Start_InvoiceReceived" name="Invoice Received"/>
+
+    <bpmn:task id="Task_CaptureInvoice" name="Capture Invoice">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="kpi_key" value="invoice_capture_time"/>
+          <camunda:property name="kpi_target" value="&lt;2h"/>
+          <camunda:property name="owner" value="AP Ops"/>
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+
+    <bpmn:task id="Task_3WayMatch" name="3-Way Match (PO/GRN/Invoice)">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="kpi_key" value="match_cycle_time"/>
+          <camunda:property name="kpi_target" value="&lt;24h"/>
+          <camunda:property name="owner" value="AP Analyst"/>
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+
+    <bpmn:exclusiveGateway id="Gateway_MatchOK" name="Match OK?"/>
+    
+    <bpmn:task id="Task_ResolveDiscrepancy" name="Resolve Discrepancy">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="kpi_key" value="discrepancy_resolution_time"/>
+          <camunda:property name="kpi_target" value="&lt;48h"/>
+          <camunda:property name="owner" value="AP + Buyer + Vendor"/>
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+
+    <bpmn:task id="Task_ApprovePayment" name="Approve for Payment">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="kpi_key" value="approval_lead_time"/>
+          <camunda:property name="kpi_target" value="&lt;8h"/>
+          <camunda:property name="owner" value="Finance Approver"/>
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+
+    <bpmn:task id="Task_SchedulePayment" name="Schedule Payment">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="kpi_key" value="on_time_payment_rate"/>
+          <camunda:property name="kpi_target" value="&gt;=98%"/>
+          <camunda:property name="owner" value="Treasury"/>
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+
+    <bpmn:endEvent id="End_Paid" name="Invoice Paid"/>
+
+    <!-- Flows -->
+    <bpmn:sequenceFlow id="F1" sourceRef="Start_InvoiceReceived" targetRef="Task_CaptureInvoice"/>
+    <bpmn:sequenceFlow id="F2" sourceRef="Task_CaptureInvoice" targetRef="Task_3WayMatch"/>
+    <bpmn:sequenceFlow id="F3" sourceRef="Task_3WayMatch" targetRef="Gateway_MatchOK"/>
+    <bpmn:sequenceFlow id="F4_yes" name="Yes" sourceRef="Gateway_MatchOK" targetRef="Task_ApprovePayment"/>
+    <bpmn:sequenceFlow id="F5_no" name="No" sourceRef="Gateway_MatchOK" targetRef="Task_ResolveDiscrepancy"/>
+    <bpmn:sequenceFlow id="F6" sourceRef="Task_ResolveDiscrepancy" targetRef="Task_3WayMatch"/>
+    <bpmn:sequenceFlow id="F7" sourceRef="Task_ApprovePayment" targetRef="Task_SchedulePayment"/>
+    <bpmn:sequenceFlow id="F8" sourceRef="Task_SchedulePayment" targetRef="End_Paid"/>
+
+  </bpmn:process>
+
+  <!-- DI: layout -->
+  <bpmndi:BPMNDiagram id="BPMNDiagram_AP">
+    <bpmndi:BPMNPlane id="BPMNPlane_AP" bpmnElement="Process_AP_Invoice">
+
+      <bpmndi:BPMNShape id="DI_Start_InvoiceReceived" bpmnElement="Start_InvoiceReceived">
+        <dc:Bounds x="120" y="170" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="DI_Task_CaptureInvoice" bpmnElement="Task_CaptureInvoice">
+        <dc:Bounds x="190" y="150" width="140" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="DI_Task_3WayMatch" bpmnElement="Task_3WayMatch">
+        <dc:Bounds x="360" y="150" width="190" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="DI_GW_MatchOK" bpmnElement="Gateway_MatchOK" isMarkerVisible="true">
+        <dc:Bounds x="585" y="165" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="DI_Task_ResolveDiscrepancy" bpmnElement="Task_ResolveDiscrepancy">
+        <dc:Bounds x="560" y="280" width="190" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="DI_Task_ApprovePayment" bpmnElement="Task_ApprovePayment">
+        <dc:Bounds x="670" y="150" width="170" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="DI_Task_SchedulePayment" bpmnElement="Task_SchedulePayment">
+        <dc:Bounds x="870" y="150" width="170" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="DI_End_Paid" bpmnElement="End_Paid">
+        <dc:Bounds x="1070" y="170" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+
+      <!-- Edges -->
+      <bpmndi:BPMNEdge id="DI_F1" bpmnElement="F1">
+        <di:waypoint x="156" y="188"/><di:waypoint x="190" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_F2" bpmnElement="F2">
+        <di:waypoint x="330" y="190"/><di:waypoint x="360" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_F3" bpmnElement="F3">
+        <di:waypoint x="550" y="190"/><di:waypoint x="585" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_F4_yes" bpmnElement="F4_yes">
+        <di:waypoint x="635" y="190"/><di:waypoint x="670" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_F5_no" bpmnElement="F5_no">
+        <di:waypoint x="610" y="215"/><di:waypoint x="655" y="260"/><di:waypoint x="655" y="280"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_F6" bpmnElement="F6">
+        <di:waypoint x="750" y="280"/><di:waypoint x="750" y="230"/><di:waypoint x="550" y="230"/><di:waypoint x="550" y="190"/><di:waypoint x="550" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_F7" bpmnElement="F7">
+        <di:waypoint x="840" y="190"/><di:waypoint x="870" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DI_F8" bpmnElement="F8">
+        <di:waypoint x="1040" y="190"/><di:waypoint x="1070" y="188"/>
+      </bpmndi:BPMNEdge>
+
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</bpmn:definitions>
