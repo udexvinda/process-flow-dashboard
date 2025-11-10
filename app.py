@@ -182,10 +182,7 @@ BPMN_PATH = f"{folder}/{bpmn_name}"
 base = bpmn_name.rsplit(".", 1)[0]
 KPI_PATH = f"{folder}/{base}_kpis.csv"
 
-st.sidebar.markdown(f"**Repo:** {REPO_USER}/{REPO_NAME}@{BRANCH}")
-st.sidebar.markdown(f"**BPMN:** {BPMN_PATH}")
-st.sidebar.markdown(f"**KPIs:** {KPI_PATH}")
-
+st.sidebar.divider()
 if st.sidebar.button("🔄 Refresh now"):
     st.cache_data.clear()
 
