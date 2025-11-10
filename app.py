@@ -13,8 +13,8 @@ st.set_page_config(
 
 # ------------------ CONFIG ------------------
 # Public raw URLs (easy path). If your repo is private, set USE_GITHUB_TOKEN=True and put a token in st.secrets.
-REPO_USER = "<your-user>"
-REPO_NAME = "<your-repo>"  # e.g., hr-bpmn-kpi-demo
+REPO_USER = "udexvinda"
+REPO_NAME = "process-flow-dashboard"  # e.g., hr-bpmn-kpi-demo
 BRANCH = "main"
 BPMN_PATH = "hr/hr_recruitment.bpmn"
 KPI_PATH = "hr/hr_kpis.csv"
