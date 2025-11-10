@@ -69,23 +69,18 @@
       <bpmndi:BPMNShape id="DI_StartEvent" bpmnElement="StartEvent">
         <dc:Bounds x="120" y="170" width="36" height="36"/>
       </bpmndi:BPMNShape>
-
       <bpmndi:BPMNShape id="DI_Task_PostJob" bpmnElement="Task_PostJob">
         <dc:Bounds x="200" y="150" width="120" height="80"/>
       </bpmndi:BPMNShape>
-
       <bpmndi:BPMNShape id="DI_Task_ScreenCandidates" bpmnElement="Task_ScreenCandidates">
         <dc:Bounds x="360" y="150" width="160" height="80"/>
       </bpmndi:BPMNShape>
-
       <bpmndi:BPMNShape id="DI_Task_ScheduleInterview" bpmnElement="Task_ScheduleInterview">
         <dc:Bounds x="560" y="150" width="170" height="80"/>
       </bpmndi:BPMNShape>
-
       <bpmndi:BPMNShape id="DI_Task_IssueOffer" bpmnElement="Task_IssueOffer">
         <dc:Bounds x="770" y="150" width="140" height="80"/>
       </bpmndi:BPMNShape>
-
       <bpmndi:BPMNShape id="DI_End_Onboarded" bpmnElement="End_Onboarded">
         <dc:Bounds x="950" y="170" width="36" height="36"/>
       </bpmndi:BPMNShape>
