@@ -1,0 +1,15 @@
+﻿,,,```csv
+kpi_key,current_value,target_value,last_updated
+payment_received_count,150,200,2023-10-01
+payer_identification_accuracy,85,95,2023-10-01
+remittance_extraction_time,3,2,2023-10-01
+invoice_matching_attempts,120,150,2023-10-01
+match_found_rate,70,80,2023-10-01
+unapplied_cash_routing_time,5,3,2023-10-01
+ar_ledger_posting_time,2,1,2023-10-01
+customer_notification_time,4,2,2023-10-01
+cash_application_rate,90,95,2023-10-01
+yes_response_rate,80,90,2023-10-01
+no_response_rate,20,10,2023-10-01
+overall_process_cycle_time,15,10,2023-10-01
+```,,,
